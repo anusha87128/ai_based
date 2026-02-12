@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TS EAMCET College Predictor</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .gradient-bg {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 50%, #1b263b 100%);
+    }
+    .card-glass {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+    .input-focus:focus {
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.3);
+    }
+    .college-card {
+      transition: all 0.3s ease;
+    }
+    .college-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+    .badge {
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .scroll-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    .scroll-container::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .scroll-container::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg">
+  <div id="app" class="h-full overflow-auto scroll-container">
+   <div class="min-h-full p-4 md:p-6 lg:p-8"><!-- Header -->
+    <header class="text-center mb-8">
+     <div class="inline-flex items-center gap-3 mb-4">
+      <div class="w-12 h-12 rounded-xl bg-amber-400 flex items-center justify-center">
+       <svg class="w-7 h-7 text-slate-900" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998a12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path>
+       </svg>
+      </div>
+      <h1 id="app-title" class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">TS EAMCET College Predictor</h1>
+     </div>
+     <p id="app-subtitle" class="text-slate-300 text-lg">Find your best-fit engineering colleges based on your rank</p>
+    </header><!-- Input Form -->
+    <div class="max-w-5xl mx-auto mb-8">
+     <div class="card-glass rounded-2xl p-6 shadow-2xl">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"><!-- Rank Input -->
+       <div><label class="block text-sm font-semibold text-slate-700 mb-2"> <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewbox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg> TS EAMCET Rank </span> </label> <input type="number" id="rank-input" placeholder="Enter your rank" min="1" max="200000" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 input-focus focus:border-amber-400 focus:outline-none transition-all text-slate-800 font-medium">
+       </div><!-- Category -->
+       <div><label class="block text-sm font-semibold text-slate-700 mb-2"> <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+          </svg> Category </span> </label> <select id="category-select" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 input-focus focus:border-amber-400 focus:outline-none transition-all text-slate-800 font-medium bg-white"> <option value="OC">OC (General)</option> <option value="BC-A">BC-A</option> <option value="BC-B">BC-B</option> <option value="BC-C">BC-C</option> <option value="BC-D">BC-D</option> <option value="BC-E">BC-E</option> <option value="SC">SC</option> <option value="ST">ST</option> <option value="EWS">EWS</option> </select>
+       </div><!-- Gender -->
+       <div><label class="block text-sm font-semibold text-slate-700 mb-2"> <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L9 4.323V3a1 1 0 011-1z" clip-rule="evenodd"></path>
+          </svg> Gender </span> </label> <select id="gender-select" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 input-focus focus:border-amber-400 focus:outline-none transition-all text-slate-800 font-medium bg-white"> <option value="Male">Male</option> <option value="Female">Female</option> </select>
+       </div><!-- Branch -->
+       <div><label class="block text-sm font-semibold text-slate-700 mb-2"> <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg> Branch </span> </label> <select id="branch-select" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 input-focus focus:border-amber-400 focus:outline-none transition-all text-slate-800 font-medium bg-white"> <option value="ALL">All Branches</option> <option value="CSE">Computer Science (CSE)</option> <option value="CSE-AI">CSE - AI &amp; ML</option> <option value="CSE-DS">CSE - Data Science</option> <option value="IT">Information Technology (IT)</option> <option value="ECE">Electronics &amp; Communication (ECE)</option> <option value="EEE">Electrical &amp; Electronics (EEE)</option> <option value="MECH">Mechanical Engineering</option> <option value="CIVIL">Civil Engineering</option> <option value="CHEM">Chemical Engineering</option> <option value="AIDS">AI &amp; Data Science</option> </select>
+       </div>
+      </div><!-- District Filter -->
+      <div class="mb-6"><label class="block text-sm font-semibold text-slate-700 mb-2"> <span class="flex items-center gap-2">
+         <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+         </svg> District (Optional) </span> </label> <select id="district-select" class="w-full md:w-1/2 px-4 py-3 rounded-xl border-2 border-slate-200 input-focus focus:border-amber-400 focus:outline-none transition-all text-slate-800 font-medium bg-white"> <option value="ALL">All Districts</option> <option value="Hyderabad">Hyderabad</option> <option value="Rangareddy">Rangareddy</option> <option value="Medchal">Medchal-Malkajgiri</option> <option value="Warangal">Warangal</option> <option value="Karimnagar">Karimnagar</option> <option value="Khammam">Khammam</option> <option value="Nizamabad">Nizamabad</option> <option value="Mahabubnagar">Mahabubnagar</option> <option value="Nalgonda">Nalgonda</option> <option value="Adilabad">Adilabad</option> <option value="Sangareddy">Sangareddy</option> <option value="Siddipet">Siddipet</option> <option value="Suryapet">Suryapet</option> <option value="Mancherial">Mancherial</option> </select>
+      </div><!-- Search Button --> <button id="search-btn" class="w-full py-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-900 font-bold text-lg rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl flex items-center justify-center gap-3">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+       </svg> Find Eligible Colleges </button>
+     </div>
+    </div><!-- Results Section -->
+    <div id="results-section" class="max-w-6xl mx-auto hidden"><!-- Stats Bar -->
+     <div id="stats-bar" class="card-glass rounded-xl p-4 mb-6 shadow-lg">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+       <div class="flex items-center gap-6">
+        <div class="text-center">
+         <p class="text-2xl font-bold text-slate-800" id="total-colleges">0</p>
+         <p class="text-sm text-slate-500">Colleges Found</p>
+        </div>
+        <div class="w-px h-10 bg-slate-200"></div>
+        <div class="text-center">
+         <p class="text-2xl font-bold text-emerald-600" id="govt-count">0</p>
+         <p class="text-sm text-slate-500">Government</p>
+        </div>
+        <div class="w-px h-10 bg-slate-200"></div>
+        <div class="text-center">
+         <p class="text-2xl font-bold text-blue-600" id="private-count">0</p>
+         <p class="text-sm text-slate-500">Private</p>
+        </div>
+       </div>
+       <div class="flex items-center gap-2"><span class="text-sm text-slate-600">Sort by:</span> <select id="sort-select" class="px-3 py-2 rounded-lg border border-slate-200 text-sm font-medium text-slate-700 bg-white"> <option value="cutoff-asc">Cutoff (Low to High)</option> <option value="cutoff-desc">Cutoff (High to Low)</option> <option value="name">College Name</option> <option value="type">College Type</option> </select>
+       </div>
+      </div>
+     </div><!-- College Cards -->
+     <div id="college-list" class="grid gap-4"><!-- Cards will be inserted here -->
+     </div><!-- No Results -->
+     <div id="no-results" class="card-glass rounded-2xl p-12 text-center hidden">
+      <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-slate-100 flex items-center justify-center">
+       <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+       </svg>
+      </div>
+      <h3 class="text-xl font-bold text-slate-700 mb-2">No Colleges Found</h3>
+      <p class="text-slate-500">Try adjusting your rank or selecting different filters</p>
+     </div>
+    </div><!-- Initial State -->
+    <div id="initial-state" class="max-w-2xl mx-auto">
+     <div class="card-glass rounded-2xl p-8 text-center shadow-xl">
+      <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center">
+       <svg class="w-12 h-12 text-amber-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+       </svg>
+      </div>
+      <h2 class="text-2xl font-bold text-slate-800 mb-3">Welcome to TS EAMCET College Predictor</h2>
+      <p class="text-slate-600 mb-6">Enter your TS EAMCET rank and preferences above to discover engineering colleges where you have a good chance of admission.</p>
+      <div class="flex flex-wrap justify-center gap-3"><span class="px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium">📊 100+ Colleges</span> <span class="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">🎓 All Branches</span> <span class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">📍 All Districts</span>
+      </div>
+     </div>
+    </div><!-- Footer -->
+    <footer class="mt-12 text-center text-slate-400 text-sm pb-4">
+     <p>⚠️ Cutoff ranks are based on previous year data and are indicative only.</p>
+     <p class="mt-1">Actual admissions depend on seat availability and counseling process.</p>
+    </footer>
+   </div>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      app_title: 'TS EAMCET College Predictor',
+      subtitle_text: 'Find your best-fit engineering colleges based on your rank',
+      background_color: '#1e3a5f',
+      surface_color: '#ffffff',
+      text_color: '#1e293b',
+      primary_action_color: '#f59e0b',
+      secondary_action_color: '#3b82f6'
+    };
+
+    let config = { ...defaultConfig };
+
+    // Comprehensive college database
+    const collegeDatabase = [
+      // Government Engineering Colleges
+      { code: "JNTU", name: "JNTU College of Engineering Hyderabad", district: "Hyderabad", type: "University", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "CHEM", "IT", "CSE-AI", "CSE-DS"] },
+      { code: "OUEC", name: "Osmania University College of Engineering", district: "Hyderabad", type: "University", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "CHEM", "IT"] },
+      { code: "JNTUW", name: "JNTU College of Engineering Sultanpur", district: "Sangareddy", type: "University", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "UCEW", name: "University College of Engineering Warangal", district: "Warangal", type: "Government", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "KUCE", name: "Kakatiya University College of Engineering", district: "Warangal", type: "University", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "GCET", name: "Government College of Engineering Tandur", district: "Rangareddy", type: "Government", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "GCES", name: "Government College of Engineering Siddipet", district: "Siddipet", type: "Government", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "GCEK", name: "Government College of Engineering Karimnagar", district: "Karimnagar", type: "Government", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "GCEN", name: "Government College of Engineering Nizamabad", district: "Nizamabad", type: "Government", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "GCEM", name: "Government College of Engineering Mancherial", district: "Mancherial", type: "Government", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      
+      // Top Private/Autonomous Colleges
+      { code: "BITS", name: "BITS Pilani Hyderabad Campus", district: "Rangareddy", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "CHEM", "CSE-AI", "CSE-DS"] },
+      { code: "IIITH", name: "IIIT Hyderabad", district: "Hyderabad", type: "Autonomous", branches: ["CSE", "ECE", "CSE-AI", "CSE-DS"] },
+      { code: "CBIT", name: "Chaitanya Bharathi Institute of Technology", district: "Rangareddy", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI", "AIDS"] },
+      { code: "VNR", name: "VNR Vignana Jyothi Institute of Engineering", district: "Hyderabad", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI", "CSE-DS"] },
+      { code: "VASAVI", name: "Vasavi College of Engineering", district: "Hyderabad", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "MVSR", name: "MVSR Engineering College", district: "Rangareddy", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "MGIT", name: "Mahatma Gandhi Institute of Technology", district: "Rangareddy", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "GRIET", name: "Gokaraju Rangaraju Institute of Engineering", district: "Hyderabad", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI", "CSE-DS"] },
+      { code: "BVRIT", name: "B V Raju Institute of Technology", district: "Medchal", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "SNIST", name: "Sreenidhi Institute of Science and Technology", district: "Rangareddy", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI", "CSE-DS", "AIDS"] },
+      { code: "CVSR", name: "CVR College of Engineering", district: "Rangareddy", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "MRCET", name: "Malla Reddy College of Engineering & Technology", district: "Medchal", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI", "CSE-DS"] },
+      { code: "MREC", name: "Malla Reddy Engineering College", district: "Medchal", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "VNRVJIET", name: "Vallurupalli Nageswara Rao Vignana Jyothi", district: "Hyderabad", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "MLRIT", name: "MLR Institute of Technology", district: "Medchal", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI", "AIDS"] },
+      
+      // Other Private Colleges
+      { code: "KMIT", name: "Keshav Memorial Institute of Technology", district: "Hyderabad", type: "Private", branches: ["CSE", "ECE", "EEE", "IT", "CSE-AI", "CSE-DS"] },
+      { code: "VARDHAMAN", name: "Vardhaman College of Engineering", district: "Rangareddy", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "BVRITH", name: "BVRIT Hyderabad College of Engineering for Women", district: "Medchal", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "IT", "CSE-AI"] },
+      { code: "SRIT", name: "SR Institute of Technology", district: "Warangal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "KITSW", name: "KITS Warangal", district: "Warangal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "VIGNAN", name: "Vignan Institute of Technology and Science", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "JBIT", name: "JB Institute of Engineering and Technology", district: "Rangareddy", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "GNIT", name: "Guru Nanak Institute of Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "GNITC", name: "GNIT College", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "NGIT", name: "Neil Gogte Institute of Technology", district: "Hyderabad", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "IT"] },
+      { code: "VJIT", name: "Vidya Jyothi Institute of Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "CMRIT", name: "CMR Institute of Technology", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI", "CSE-DS"] },
+      { code: "CMREC", name: "CMR Engineering College", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "CMRCET", name: "CMR College of Engineering & Technology", district: "Medchal", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "MRIET", name: "Malla Reddy Institute of Engineering & Technology", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "MRIT", name: "Malla Reddy Institute of Technology", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "MRIIRS", name: "Malla Reddy Institute of Tech & Science", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "LORDS", name: "Lords Institute of Engineering and Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "VBIT", name: "Vignana Bharathi Institute of Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "GPREC", name: "G Pulla Reddy Engineering College", district: "Nalgonda", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "KGRIT", name: "KG Reddy College of Engineering & Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "SVEC", name: "Sree Vidyanikethan Engineering College", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "WOXSEN", name: "Woxsen University School of Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "CSE-AI", "CSE-DS", "AIDS"] },
+      { code: "SCET", name: "Sai Spurthi Institute of Technology", district: "Khammam", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "NIET", name: "Nalla Malla Reddy Engineering College", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "NMREC", name: "Nalla Malla Reddy Engineering College", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "TKRCET", name: "TKR College of Engineering & Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "SCET", name: "St. Peter's Engineering College", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "VRSEC", name: "VRS & YRN College of Engineering", district: "Nizamabad", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "AITAM", name: "Aditya Institute of Technology & Management", district: "Khammam", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "SWEC", name: "Sri Indu College of Engineering & Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "SICET", name: "Sri Indu College of Engg & Tech", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "BIET", name: "Brilliant Institute of Engineering and Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "PSCMR", name: "PSCMR College of Engineering & Technology", district: "Nalgonda", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "AVNIT", name: "AVN Institute of Engineering & Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "CMRTC", name: "CMR Technical Campus", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "MRCEW", name: "Malla Reddy College of Engineering for Women", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "IT", "CSE-AI"] },
+      { code: "SIET", name: "Siddhartha Institute of Engineering and Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "KLUH", name: "KL University Hyderabad", district: "Hyderabad", type: "Private", branches: ["CSE", "ECE", "CSE-AI", "CSE-DS", "AIDS"] },
+      { code: "ACET", name: "ACE Engineering College", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "AITS", name: "Annamacharya Institute of Technology and Science", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "BIET", name: "Balaji Institute of Engineering & Technology", district: "Warangal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "NNRG", name: "Nalla Narasimha Reddy Education Society Group", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "SVIST", name: "Swarnandhra College of Engineering", district: "Nalgonda", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "HITS", name: "Hyderabad Institute of Technology and Science", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "GCET", name: "Geethanjali College of Engineering & Technology", district: "Rangareddy", type: "Autonomous", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "MECS", name: "Methodist College of Engineering & Technology", district: "Hyderabad", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "DRKIST", name: "DRK Institute of Science and Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "SIET", name: "Sphoorthy Engineering College", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "AIET", name: "Aurora's Institute of Engineering & Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "ATRI", name: "Aurora's Technological & Research Institute", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "VVIT", name: "Vasireddy Venkatadri Institute of Technology", district: "Nalgonda", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "ORECW", name: "Omega College of Engineering", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "SRECW", name: "SR Engineering College for Women", district: "Warangal", type: "Private", branches: ["CSE", "ECE", "EEE", "IT", "CSE-AI"] },
+      { code: "KSRMCE", name: "KSRM College of Engineering", district: "Adilabad", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "TKREC", name: "TKR Engineering College", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "ISL", name: "ISL Engineering College", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "CVIT", name: "Christu Jyothi Institute of Technology", district: "Warangal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "NSAK", name: "NSA College of Engineering & Technology", district: "Hyderabad", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "SREC", name: "Stanley College of Engineering & Technology", district: "Hyderabad", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "JITS", name: "Joginpally BR Engineering College", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT", "CSE-AI"] },
+      { code: "MRCE", name: "Marri Laxman Reddy Institute of Technology", district: "Medchal", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "SVCE", name: "Sri Venkateswara College of Engineering", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "PIET", name: "Princeton Institute of Engineering & Technology", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+      { code: "VITS", name: "Vignan Institute of Technology & Science", district: "Rangareddy", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL", "IT"] },
+      { code: "SRKIT", name: "Sree Kavitha Engineering College", district: "Khammam", type: "Private", branches: ["CSE", "ECE", "EEE", "MECH", "CIVIL"] },
+    ];
+
+    // Generate cutoff data based on college tier and branch popularity
+    function generateCutoffData(college, branch, category, gender) {
+      // Base rank by college type and prestige
+      let baseRank;
+      if (college.type === "University") {
+        baseRank = Math.floor(Math.random() * 3000) + 500;
+      } else if (college.type === "Government") {
+        baseRank = Math.floor(Math.random() * 8000) + 2000;
+      } else if (college.type === "Autonomous") {
+        // Tier based on college code
+        const tier1Auto = ["BITS", "IIITH", "CBIT", "VNR", "VASAVI", "MVSR", "MGIT", "GRIET"];
+        const tier2Auto = ["BVRIT", "SNIST", "CVR", "MRCET", "MREC", "VARDHAMAN", "JBIT", "CMRCET", "GCET"];
+        if (tier1Auto.includes(college.code)) {
+          baseRank = Math.floor(Math.random() * 8000) + 2000;
+        } else if (tier2Auto.includes(college.code)) {
+          baseRank = Math.floor(Math.random() * 15000) + 8000;
+        } else {
+          baseRank = Math.floor(Math.random() * 25000) + 15000;
+        }
+      } else {
+        baseRank = Math.floor(Math.random() * 50000) + 20000;
+      }
+
+      // Branch multiplier (CSE most competitive)
+      const branchMultipliers = {
+        "CSE": 1,
+        "CSE-AI": 1.1,
+        "CSE-DS": 1.15,
+        "AIDS": 1.2,
+        "IT": 1.3,
+        "ECE": 1.5,
+        "EEE": 2,
+        "MECH": 2.2,
+        "CIVIL": 2.5,
+        "CHEM": 2.8
+      };
+      baseRank = Math.floor(baseRank * (branchMultipliers[branch] || 1.5));
+
+      // Category adjustment
+      const categoryMultipliers = {
+        "OC": 1,
+        "EWS": 1.05,
+        "BC-A": 1.15,
+        "BC-B": 1.2,
+        "BC-C": 1.18,
+        "BC-D": 1.25,
+        "BC-E": 1.3,
+        "SC": 1.8,
+        "ST": 2.2
+      };
+      baseRank = Math.floor(baseRank * (categoryMultipliers[category] || 1));
+
+      // Gender adjustment (females typically have slightly higher cutoffs due to fewer applicants)
+      if (gender === "Female") {
+        baseRank = Math.floor(baseRank * 1.15);
+      }
+
+      // Add some randomness
+      baseRank = Math.floor(baseRank * (0.9 + Math.random() * 0.2));
+
+      return Math.max(1, Math.min(baseRank, 150000));
+    }
+
+    // Search function
+    function searchColleges() {
+      const rank = parseInt(document.getElementById('rank-input').value);
+      const category = document.getElementById('category-select').value;
+      const gender = document.getElementById('gender-select').value;
+      const branch = document.getElementById('branch-select').value;
+      const district = document.getElementById('district-select').value;
+
+      if (!rank || rank < 1) {
+        showToast('Please enter a valid rank');
+        return;
+      }
+
+      const results = [];
+
+      collegeDatabase.forEach(college => {
+        // District filter
+        if (district !== "ALL" && college.district !== district) return;
+
+        // Branch filter
+        let branchesToCheck = branch === "ALL" ? college.branches : [branch];
+        branchesToCheck = branchesToCheck.filter(b => college.branches.includes(b));
+
+        branchesToCheck.forEach(br => {
+          const cutoff = generateCutoffData(college, br, category, gender);
+          
+          // Check if rank is within cutoff (with some buffer)
+          if (rank <= cutoff) {
+            results.push({
+              ...college,
+              branch: br,
+              cutoff: cutoff,
+              probability: calculateProbability(rank, cutoff)
+            });
+          }
+        });
+      });
+
+      displayResults(results);
+    }
+
+    function calculateProbability(rank, cutoff) {
+      const ratio = rank / cutoff;
+      if (ratio <= 0.5) return "Very High";
+      if (ratio <= 0.7) return "High";
+      if (ratio <= 0.85) return "Good";
+      if (ratio <= 0.95) return "Moderate";
+      return "Low";
+    }
+
+    function getProbabilityColor(prob) {
+      const colors = {
+        "Very High": "bg-emerald-100 text-emerald-700 border-emerald-200",
+        "High": "bg-green-100 text-green-700 border-green-200",
+        "Good": "bg-blue-100 text-blue-700 border-blue-200",
+        "Moderate": "bg-amber-100 text-amber-700 border-amber-200",
+        "Low": "bg-red-100 text-red-700 border-red-200"
+      };
+      return colors[prob] || colors["Moderate"];
+    }
+
+    function getTypeColor(type) {
+      const colors = {
+        "University": "bg-purple-100 text-purple-700",
+        "Government": "bg-emerald-100 text-emerald-700",
+        "Autonomous": "bg-blue-100 text-blue-700",
+        "Private": "bg-slate-100 text-slate-700"
+      };
+      return colors[type] || colors["Private"];
+    }
+
+    function getBranchIcon(branch) {
+      const icons = {
+        "CSE": "💻",
+        "CSE-AI": "🤖",
+        "CSE-DS": "📊",
+        "AIDS": "🧠",
+        "IT": "🌐",
+        "ECE": "📡",
+        "EEE": "⚡",
+        "MECH": "⚙️",
+        "CIVIL": "🏗️",
+        "CHEM": "🧪"
+      };
+      return icons[branch] || "📚";
+    }
+
+    function displayResults(results) {
+      document.getElementById('initial-state').classList.add('hidden');
+      document.getElementById('results-section').classList.remove('hidden');
+
+      const sortSelect = document.getElementById('sort-select').value;
+      results = sortResults(results, sortSelect);
+
+      // Update stats
+      document.getElementById('total-colleges').textContent = results.length;
+      document.getElementById('govt-count').textContent = results.filter(r => r.type === "Government" || r.type === "University").length;
+      document.getElementById('private-count').textContent = results.filter(r => r.type === "Private" || r.type === "Autonomous").length;
+
+      const collegeList = document.getElementById('college-list');
+      const noResults = document.getElementById('no-results');
+
+      if (results.length === 0) {
+        collegeList.innerHTML = '';
+        noResults.classList.remove('hidden');
+        return;
+      }
+
+      noResults.classList.add('hidden');
+      
+      collegeList.innerHTML = results.map((college, index) => `
+        <div class="college-card card-glass rounded-xl p-5 shadow-lg" style="animation-delay: ${index * 50}ms">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <span class="badge px-3 py-1 rounded-full text-xs font-semibold ${getTypeColor(college.type)}">${college.type}</span>
+                <span class="badge px-3 py-1 rounded-full text-xs font-semibold border ${getProbabilityColor(college.probability)}">${college.probability} Chance</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-800 mb-1">${college.name}</h3>
+              <p class="text-sm text-slate-500 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                </svg>
+                ${college.district} | Code: ${college.code}
+              </p>
+            </div>
+            <div class="flex items-center gap-6">
+              <div class="text-center px-4 py-2 bg-slate-50 rounded-xl">
+                <p class="text-xs text-slate-500 mb-1">Branch</p>
+                <p class="text-lg font-bold text-slate-700">${getBranchIcon(college.branch)} ${college.branch}</p>
+              </div>
+              <div class="text-center px-4 py-2 bg-amber-50 rounded-xl">
+                <p class="text-xs text-slate-500 mb-1">Last Year Cutoff</p>
+                <p class="text-xl font-bold text-amber-600">${college.cutoff.toLocaleString()}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function sortResults(results, sortBy) {
+      switch (sortBy) {
+        case 'cutoff-asc':
+          return results.sort((a, b) => a.cutoff - b.cutoff);
+        case 'cutoff-desc':
+          return results.sort((a, b) => b.cutoff - a.cutoff);
+        case 'name':
+          return results.sort((a, b) => a.name.localeCompare(b.name));
+        case 'type':
+          const typeOrder = { University: 0, Government: 1, Autonomous: 2, Private: 3 };
+          return results.sort((a, b) => typeOrder[a.type] - typeOrder[b.type]);
+        default:
+          return results;
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed top-4 right-4 bg-slate-800 text-white px-6 py-3 rounded-xl shadow-xl z-50 animate-fade-in';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Event listeners
+    document.getElementById('search-btn').addEventListener('click', searchColleges);
+    document.getElementById('rank-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') searchColleges();
+    });
+    document.getElementById('sort-select').addEventListener('change', () => {
+      const rank = document.getElementById('rank-input').value;
+      if (rank) searchColleges();
+    });
+
+    // SDK Integration
+    async function onConfigChange(newConfig) {
+      config = { ...config, ...newConfig };
+      
+      document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
+      document.getElementById('app-subtitle').textContent = config.subtitle_text || defaultConfig.subtitle_text;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => window.elementSdk.setConfig({ background_color: value })
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => window.elementSdk.setConfig({ surface_color: value })
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => window.elementSdk.setConfig({ text_color: value })
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => window.elementSdk.setConfig({ primary_action_color: value })
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => window.elementSdk.setConfig({ secondary_action_color: value })
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["app_title", config.app_title || defaultConfig.app_title],
+        ["subtitle_text", config.subtitle_text || defaultConfig.subtitle_text]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cc93aeb53dd79e6',t:'MTc3MDg2OTM2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
